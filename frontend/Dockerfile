@@ -1,39 +1,35 @@
-# Use an official Node.js image
+# 1. Use an official Node.js base image
 FROM node:18-alpine
 
-# Set working directory inside the container
+# 2. Set working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json if available
+# 3. Copy package.json and package-lock.json first (to cache dependencies)
 COPY package*.json ./
 
-# Install dependencies
+# 4. Install dependencies
 RUN npm install
 
-# Copy the rest of your app's source code
+# 5. Copy the rest of the project files
 COPY . .
 
-# Expose the port used by the dev server (e.g., Vite default is 5173)
+# 6. Expose the port the app runs on (Vite uses 5173 by default, or you can change it)
 EXPOSE 5173
 
-# Start the development server
-CMD ["npm", "run", "dev"]# Use an official Node.js image
-FROM node:20
-
-# Set working directory inside the container
-WORKDIR /app
-
-# Copy package.json and package-lock.json if available
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy the rest of your app's source code
-COPY . .
-
-# Expose the port used by the dev server (e.g., Vite default is 5173)
-EXPOSE 5173
-
-# Start the development server
+# 7. Run the development server
 CMD ["npm", "run", "dev"]
+
+# # Build the image
+# docker build -t react-dev .
+
+# # Run the container
+# docker run -p 5173:5173 -d react-dev
+
+
+# Change host from localhost to 0.0.0.0 when running project through docker.
+
+# docker-compose up --build -d
+
+# docker-compose down
+
+# -p host_PORT:docker_container_PORT
