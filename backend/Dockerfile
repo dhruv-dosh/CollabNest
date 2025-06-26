@@ -1,12 +1,18 @@
-# Build stage
-FROM maven:3.9.4-eclipse-temurin-17 AS build
+# Use Maven image to build the app
+FROM maven:3.9.3-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# Runtime stage
+# Use JDK image to run the app
 FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
+
+# Copy built jar from Maven build
 COPY --from=build /app/target/*.jar app.jar
+
+# Expose the port Spring Boot runs on
 EXPOSE 5054
-CMD ["java", "-jar", "app.jar"]
+
+# Run the app
+ENTRYPOINT ["java", "-jar", "app.jar"]
