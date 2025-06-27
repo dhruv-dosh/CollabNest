@@ -87,7 +87,7 @@ public class PaymentController {
 		      paymentLinkRequest.put("reminder_enable",true);
 
 		      // Set the callback URL and method
-		      paymentLinkRequest.put("callback_url","http://localhost:5173/upgrade_plan/success?planType="+planType);
+		      paymentLinkRequest.put("callback_url","http://15.207.1.234:5173/upgrade_plan/success?planType="+planType);
 		      paymentLinkRequest.put("callback_method","get");
 
 		      // Create the payment link using the paymentLink.create() method
